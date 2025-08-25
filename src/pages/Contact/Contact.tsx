@@ -1,33 +1,19 @@
 import { motion } from "framer-motion";
-import "./Contact.css";
+import "./ContactPage.css";
 
-const Contact = () => {
+const ContactPage: React.FC = () => {
   return (
-    <section className="contact">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="contact-container"
-      >
-        <h2>Contact Us</h2>
-        <p>
-          Have questions or need help? Send us a message and we’ll get back to
-          you soon.
-        </p>
-
-        <form>
-          <input type="text" placeholder="Your Name" />
-          <input type="email" placeholder="Your Email" />
-          <textarea placeholder="Your Message" rows={4}></textarea>
-
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            Send Message
-          </motion.button>
-        </form>
-      </motion.div>
-    </section>
+    <motion.div
+      initial={{ x: -50, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="contact-container"
+    >
+      <h2 className="contact-title">Contact Us</h2>
+      <p className="contact-text">📧 Email: support@staynear.com</p>
+      <p className="contact-text">📞 Phone: +91 98765 43210</p>
+    </motion.div>
   );
 };
 
-export default Contact;
+export default ContactPage;

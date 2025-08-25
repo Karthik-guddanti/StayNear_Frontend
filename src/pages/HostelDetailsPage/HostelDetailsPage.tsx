@@ -1,4 +1,4 @@
-export const HostelDetails: React.FC = () => {
+export const HostelDetailsPage: React.FC = () => {
   return (
     <div>
       <h1>Hostel Details</h1>
@@ -6,3 +6,5 @@ export const HostelDetails: React.FC = () => {
     </div>
   );
 };
+
+export default HostelDetailsPage;

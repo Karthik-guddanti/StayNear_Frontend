@@ -1,41 +1,23 @@
-import { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
-import "./Navbar.css";
+import { motion } from "framer-motion";
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const Navbar: React.FC = () => {
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        {/* Logo */}
-        <Link to="/" className="navbar-logo">
-          Stay<span>Near</span>
-        </Link>
-
-        {/* Desktop Menu */}
-        <div className="navbar-links">
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
-        </div>
-
-        {/* Mobile Hamburger */}
-        <div className="navbar-hamburger">
-          <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
+    <motion.nav
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="bg-blue-600 text-white px-6 py-4 shadow-lg flex justify-between items-center"
+    >
+      <h1 className="text-xl font-bold">StayNear</h1>
+      <div className="space-x-6">
+        <Link to="/" className="hover:text-yellow-300 transition">Home</Link>
+        <Link to="/about" className="hover:text-yellow-300 transition">About</Link>
+        <Link to="/hostels" className="hover:text-yellow-300 transition">Hostels</Link>
+        <Link to="/contact" className="hover:text-yellow-300 transition">Contact</Link>
       </div>
-
-      {/* Mobile Dropdown */}
-      <div className={`navbar-mobile ${isOpen ? "open" : ""}`}>
-        <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
-        <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
-        <Link to="/contact" onClick={() => setIsOpen(false)}>Contact</Link>
-      </div>
-    </nav>
+    </motion.nav>
   );
 };
 
