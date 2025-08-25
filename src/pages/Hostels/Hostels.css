@@ -1,0 +1,26 @@
+.hostels {
+  min-height: 100vh;
+  padding: 7rem 1.5rem 4rem;
+  background: #f7f7f7;
+  text-align: center;
+}
+
+.hostels h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+.hostels p {
+  margin: 0.5rem 0 2rem;
+  color: #4b5563;
+}
+
+.map-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
