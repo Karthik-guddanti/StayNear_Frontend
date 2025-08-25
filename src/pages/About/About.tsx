@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import "./AboutPage.css";
+import "./About.css";
 
 const AboutPage: React.FC = () => {
   return (

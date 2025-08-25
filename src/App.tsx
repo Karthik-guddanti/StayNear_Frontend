@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import HostelListPage from "./pages/HostelListPage/HostelListPage";
 import HostelDetailsPage from "./pages/HostelDetailsPage/HostelDetailsPage";
-import AboutPage from "./pages/AboutPage/AboutPage";
-import ContactPage from "./pages/ContactPage/ContactPage";
-import Layout from "./layout/Layout";  
+import AboutPage from "./pages/About/About";
+import ContactPage from "./pages/Contact/Contact";
+import Layout from "./Layout/Layout";  
 
 
 const App: React.FC = () => {

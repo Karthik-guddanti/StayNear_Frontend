@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import "./ContactPage.css";
+import "./Contact.css";
 
 const ContactPage: React.FC = () => {
   return (
