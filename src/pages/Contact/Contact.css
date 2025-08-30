@@ -1,68 +1,33 @@
-.contact {
-  min-height: 100vh;
-  background: #f7f7f7;
-  padding: 7rem 1.5rem 4rem;
+.contact-page-container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+.contact-hero { text-align: center; padding: 3rem 0; }
+.contact-hero h1 { font-size: 2.8rem; font-weight: 700; }
+.partner-sections { display: flex; flex-direction: column; gap: 3rem; }
+.partner-card {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  align-items: center;
+  gap: 2rem;
+  background: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
 }
-
-.contact-container {
-  max-width: 700px;
-  margin: auto;
-  background: #fff;
-  padding: 3rem;
-  border-radius: 1rem;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-.contact-container h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #4f46e5;
-  margin-bottom: 1rem;
-}
-
-.contact-container p {
-  font-size: 1.1rem;
-  color: #4b5563;
-  margin-bottom: 2rem;
-}
-
-.contact form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.contact input,
-.contact textarea {
-  width: 100%;
-  padding: 1rem;
-  border-radius: 0.75rem;
-  border: 1px solid #d1d5db;
-  background: #f9fafb;
-  color: #111827;
-  font-size: 1rem;
-  transition: border 0.3s, box-shadow 0.3s;
-}
-
-.contact input:focus,
-.contact textarea:focus {
-  border: 1px solid #4f46e5;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(79,70,229,0.4);
-}
-
-.contact button {
-  padding: 1rem;
-  background: #4f46e5;
-  color: white;
-  font-weight: 700;
+.partner-card:nth-child(even) { grid-template-columns: 1.5fr 1fr; }
+.partner-card:nth-child(even) img { order: 2; }
+.partner-card img { width: 100%; height: 100%; object-fit: cover; }
+.card-body { padding: 2rem; }
+.card-body h2 { font-size: 2rem; margin-top: 0; }
+.card-body button {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 0.75rem;
+  background: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
 }
-
-.contact button:hover {
-  background: #4338ca;
+@media (max-width: 768px) {
+  .partner-card, .partner-card:nth-child(even) { grid-template-columns: 1fr; }
+  .partner-card:nth-child(even) img { order: 1; }
 }

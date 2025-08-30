@@ -1,0 +1,7 @@
+/* src/components/Footer/Footer.css */
+.site-footer {
+  background-color: var(--text-dark);
+  color: #d1d5db; /* Light gray text */
+  text-align: center;
+  padding: 1.5rem;
+}

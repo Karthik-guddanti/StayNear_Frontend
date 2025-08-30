@@ -1,3 +1,33 @@
+/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* CSS Variables for easy theme management */
+:root {
+  --primary-color: #4f46e5; /* Indigo */
+  --primary-hover: #4338ca;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --bg-color: #f9fafb;      /* Light gray page background */
+  --surface-color: #ffffff; /* White for cards */
+  --border-color: #e5e7eb;
+  --star-color: #f59e0b;
+  --font-family: 'Poppins', sans-serif;
+}
+
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  @apply font-sans bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }

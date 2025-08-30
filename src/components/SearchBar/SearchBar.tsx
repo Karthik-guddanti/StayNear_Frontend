@@ -1,112 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // <-- IMPORT THIS HOOK
-import axios from 'axios';
-
-// Define the type for a Location object and a Geolocation coordinate object
-interface Location {
-    id: number;
-    name: string;
-    type: string;
-}
-
-interface Coordinates {
-    latitude: number;
-    longitude: number;
-}
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './SearchBar.css';
 
 const SearchBar: React.FC = () => {
-    const [query, setQuery] = useState<string>('');
-    const [suggestions, setSuggestions] = useState<Location[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-    // Initialize the useNavigate hook
-    const navigate = useNavigate();
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    if (error) setError(null);
+  };
 
-    useEffect(() => {
-        if (query.length > 2) {
-            const fetchSuggestions = async () => {
-                try {
-                    const response = await axios.get<Location[]>(
-                        `http://localhost:5000/api/locations/search?query=${query}`
-                    );
-                    setSuggestions(response.data);
-                } catch (error) {
-                    console.error('Error fetching search suggestions:', error);
-                }
-            };
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
 
-            const delayDebounceFn = setTimeout(() => {
-                fetchSuggestions();
-            }, 500);
+    setIsLoading(true);
+    setError(null);
 
-            return () => clearTimeout(delayDebounceFn);
-        } else {
-            setSuggestions([]);
-        }
-    }, [query]);
+    try {
+      // This URL must exactly match your backend route
+      const backendUrl = `http://localhost:5000/api/locations/search?query=${encodeURIComponent(query)}`;
+      
+      const response = await fetch(backendUrl);
+      const data = await response.json();
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setQuery(e.target.value);
-    };
+      if (response.ok && data.status === 'OK' && data.results.length > 0) {
+        const { lat, lng } = data.results[0].geometry.location;
+        navigate(`/hostels?location=${encodeURIComponent(query)}&lat=${lat}&lng=${lng}`);
+      } else {
+        setError(data.message || 'Location not found. Please try a different search.');
+      }
+    } catch (err) {
+      setError('Failed to fetch location. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    // New navigation logic when a location is clicked
-    const handleLocationClick = (locationName: string) => {
-        setQuery(locationName);
-        setSuggestions([]);
-        // Navigate to the hostel list page, passing the location name as a URL parameter
-        navigate(`/hostels?location=${locationName}`);
-    };
+  const handleCurrentLocationClick = () => {
+    navigate('/hostels');
+  };
 
-    const handleCurrentLocationClick = () => {
-        setIsLoading(true);
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const coords: Coordinates = {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                    };
-                    setIsLoading(false);
-                    console.log('Current location coordinates:', coords);
-                    
-                    // Navigate to the hostel list page, passing the coordinates as URL parameters
-                    navigate(`/hostels?lat=${coords.latitude}&lon=${coords.longitude}`);
-                },
-                (error) => {
-                    setIsLoading(false);
-                    console.error('Error getting current location:', error);
-                    alert(`Could not get your location. Please type a location instead.`);
-                }
-            );
-        } else {
-            setIsLoading(false);
-            alert('Geolocation is not supported by your browser.');
-        }
-    };
-
-    return (
-        <div className="search-bar-container">
-            <input
-                type="text"
-                placeholder="Enter an area, locality, or landmark"
-                value={query}
-                onChange={handleInputChange}
-            />
-            <button onClick={handleCurrentLocationClick} disabled={isLoading}>
-                {isLoading ? 'Getting Location...' : 'Use my current location'}
-            </button>
-            {suggestions.length > 0 && (
-                <ul className="suggestions-list">
-                    {suggestions.map((location) => (
-                        <li key={location.id} onClick={() => handleLocationClick(location.name)}>
-                            {location.name}
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
-    );
+  return (
+    <div className="search-bar-wrapper">
+      <form className="search-form-container" onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder="Find in and around..."
+          value={query}
+          onChange={handleInputChange}
+          className="search-input"
+        />
+        <button
+          type="button"
+          onClick={handleCurrentLocationClick}
+          className="location-icon-btn"
+          aria-label="Use current location"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 8C9.79 8 8 9.79 8 12C8 14.21 9.79 16 12 16C14.21 16 16 14.21 16 12C16 9.79 14.21 8 12 8ZM20.94 11C20.48 6.83 17.17 3.52 13 3.06V1H11V3.06C6.83 3.52 3.52 6.83 3.06 11H1V13H3.06C3.52 17.17 6.83 20.48 11 20.94V23H13V20.94C17.17 20.48 20.48 17.17 20.94 13H23V11H20.94ZM12 19C8.13 19 5 15.87 5 12C5 8.13 8.13 5 12 5C15.87 5 19 8.13 19 12C19 15.87 15.87 19 12 19Z" fill="#6B7280"/>
+          </svg>
+        </button>
+        <button type="submit" className="search-btn" disabled={isLoading}>
+          {isLoading ? '...' : 'Search'}
+        </button>
+      </form>
+      {error && <p className="search-error">{error}</p>}
+    </div>
+  );
 };
 
 export default SearchBar;
