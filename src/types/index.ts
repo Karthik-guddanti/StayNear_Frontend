@@ -11,9 +11,21 @@ export interface Hostel {
   gender: 'male' | 'female' | 'colive';
   price: number;
   amenities: string[];
+  rating: number;
+  reviews: number;
   photoUrl?: string | null; // 👈 Add this new property for the photo
   createdAt?: string;
   updatedAt?: string;
 }
 
-// ... (HostelCardData remains the same)
+// This type defines the props needed specifically for the HostelCard component
+export interface HostelCardData {
+  id: string;
+  name: string;
+  photo: string;
+  rating: number | string;
+  reviews: number;
+  distance: string;
+  price: number;
+  amenities: string[];
+}
