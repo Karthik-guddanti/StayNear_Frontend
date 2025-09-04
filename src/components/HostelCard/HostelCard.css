@@ -122,3 +122,12 @@
   color: var(--text-dark);
   margin-right: 0.25rem;
 }
+
+/* Add these styles to the end of your existing file */
+.wishlist-btn.saved svg {
+  fill: #e60023; /* A solid red color */
+}
+.wishlist-btn.saved {
+  background-color: #fee2e2; /* A light pink background */
+  border-color: #e60023;
+}

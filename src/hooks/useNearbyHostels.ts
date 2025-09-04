@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { Hostel } from '@/types';
-import type { FilterState } from '@/components/FilterControls/FilterControls';
+import { searchHostels } from '@/services/api';
 
-interface NearbyHostelsResult {
-  hostels: Hostel[];
-  loading: boolean;
-  error: string | null;
-}
-
-const useNearbyHostels = (filters: FilterState): NearbyHostelsResult => {
+const useNearbyHostels = () => { // ✅ Filters are no longer passed into this hook
   const [hostels, setHostels] = useState<Hostel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,29 +17,17 @@ const useNearbyHostels = (filters: FilterState): NearbyHostelsResult => {
       setLoading(true);
       setError(null);
       try {
+        // ✅ The only parameters sent to the backend are lat and lng
         const params = new URLSearchParams({
           lat: latitude.toString(),
           lng: longitude.toString(),
-          maxPrice: filters.price.toString(),
-          gender: filters.gender,
-          sortBy: filters.sortBy,
         });
-        
-        // Add amenities to the search params if any are selected
-        filters.amenities.forEach(amenity => params.append('amenities', amenity));
 
-        const backendUrl = `http://localhost:5000/api/hostels/search?${params.toString()}`;
-        
-        const response = await fetch(backendUrl);
-        if (!response.ok) {
-          throw new Error('Failed to fetch from backend');
-        }
-        const data: Hostel[] = await response.json();
-        
-        setHostels(data);
+        const response = await searchHostels(params);
+        setHostels(response.data);
 
-      } catch (err) {
-        setError("Failed to fetch hostel data.");
+      } catch (err: any) {
+        setError(err.response?.data?.message || "Failed to fetch hostel data.");
       } finally {
         setLoading(false);
       }
@@ -62,7 +44,7 @@ const useNearbyHostels = (filters: FilterState): NearbyHostelsResult => {
         }
       );
     }
-  }, [searchParams, filters]);
+  }, [searchParams]); // ✅ The hook now only re-runs when the location changes
 
   return { hostels, loading, error };
 };

@@ -1,31 +1,37 @@
+// client/src/pages/LoginPage/LoginPage.tsx
+
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
+import { loginUser } from '@/services/api'; // ✅ FIX: Import from your API service
 import './AuthForm.css';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  // ✅ FIX: Add isLoading state for the form submission
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    try {
-      const response = await fetch('http://localhost:5000/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
+    setIsLoading(true);
 
-      login(data);
+    try {
+      // ✅ FIX: Use the centralized API function instead of fetch
+      const response = await loginUser({ email, password });
+      
+      login(response.data); // Axios nests the response data
       navigate('/');
     } catch (err: any) {
-      setError(err.message);
+      // ✅ FIX: Handle Axios error structure
+      const message = err.response?.data?.message || 'Login failed. Please check your credentials.';
+      setError(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -42,7 +48,10 @@ const LoginPage: React.FC = () => {
           <label htmlFor="password">Password</label>
           <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
-        <button type="submit" className="auth-button">Login</button>
+        {/* ✅ FIX: Disable button and change text during submission */}
+        <button type="submit" className="auth-button" disabled={isLoading}>
+          {isLoading ? 'Logging In...' : 'Login'}
+        </button>
         <p className="auth-switch">
           Don't have an account? <Link to="/register">Register</Link>
         </p>

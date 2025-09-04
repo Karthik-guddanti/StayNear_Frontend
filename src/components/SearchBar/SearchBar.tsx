@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+
+import React from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { searchLocation } from '@/services/api';
 import './SearchBar.css';
 
-const SearchBar: React.FC = () => {
-  const [query, setQuery] = useState<string>('');
+interface SearchBarProps {
+  initialQuery?: string;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ initialQuery = '' }) => {
+  const [query, setQuery] = useState<string>(initialQuery);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setQuery(initialQuery);
+  }, [initialQuery]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -21,20 +32,17 @@ const SearchBar: React.FC = () => {
     setError(null);
 
     try {
-      // This URL must exactly match your backend route
-      const backendUrl = `http://localhost:5000/api/locations/search?query=${encodeURIComponent(query)}`;
-      
-      const response = await fetch(backendUrl);
-      const data = await response.json();
+      const response = await searchLocation(query);
+      const data = response.data; 
 
-      if (response.ok && data.status === 'OK' && data.results.length > 0) {
+      if (data.status === 'OK' && data.results.length > 0) {
         const { lat, lng } = data.results[0].geometry.location;
         navigate(`/hostels?location=${encodeURIComponent(query)}&lat=${lat}&lng=${lng}`);
       } else {
-        setError(data.message || 'Location not found. Please try a different search.');
+        setError(data.message || 'Location not found.');
       }
-    } catch (err) {
-      setError('Failed to fetch location. Please try again.');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Failed to fetch location. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -49,7 +57,7 @@ const SearchBar: React.FC = () => {
       <form className="search-form-container" onSubmit={handleSearch}>
         <input
           type="text"
-          placeholder="Find in and around..."
+          placeholder="Search for a new location..."
           value={query}
           onChange={handleInputChange}
           className="search-input"

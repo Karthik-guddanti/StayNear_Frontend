@@ -1,55 +1,66 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-// Import all pages
-import Home from "./pages/Home/Home";
-import HostelListPage from "./pages/HostelListPage/HostelListPage";
-import HostelDetailsPage from "./pages/HostelDetailsPage/HostelDetailsPage";
-import AboutPage from "./pages/About/About";
-import ContactPage from "./pages/Contact/Contact";
-import WishlistPage from "./pages/WishlistPage/WishlistPage";
-import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import LoginPage from "./pages/LoginPage/LoginPage";
+import { Routes, Route } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
-// Import shared components
-import Navbar from "./components/Navbar/Navbar";
-import Footer from "./components/Footer/Footer";
+// Import Shared Layout Components
+import Navbar from './components/Navbar/Navbar';
+// Import All Page Components
+import HomePage from './pages/Home/Home';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+import HostelListPage from './pages/HostelListPage/HostelListPage';
+import HostelDetailsPage from './pages/HostelDetailsPage/HostelDetailsPage';
+import About from './pages/About/About';
+import Contact from './pages/Contact/Contact';
+import Footer from './components/Footer/Footer';
 
-// Import the main stylesheet
-import './App.css'; 
-
-
-const App: React.FC = () => {
+function App() {
   return (
-    <BrowserRouter>
-      <div className="app-container">
-        <Navbar />
-        <main className="main-content">
-          <Routes>
-            {/* Main Pages */}
-            <Route path="/" element={<Home />} />
-            <Route path="/hostels" element={<HostelListPage />} />
-            <Route path="/hostels/:hostelId" element={<HostelDetailsPage />} />
-            
-            {/* Wishlist Page */}
-            <Route path="/wishlist" element={<WishlistPage />} />
+    <div className="app-container">
+      {/* Navbar is placed here, outside of <Routes>, so it's on every page */}
+      <Navbar />
 
-            {/* Authentication Pages */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            
-            {/* Static Pages */}
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/contact" element={<ContactPage />} />
+      <main>
+        {/* The Routes component will swap the page content here */}
+        <Routes>
+          {/* --- Public Routes --- */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
 
-            {/* Fallback Route to redirect any unknown paths to the home page */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </BrowserRouter>
+          {/* --- Protected Routes --- */}
+          <Route
+            path="/hostels"
+            element={
+              <ProtectedRoute>
+                <HostelListPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/hostels/:hostelId"
+            element={
+              <ProtectedRoute>
+                <HostelDetailsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/footer"
+            element={
+                <Footer />
+            }
+          />
+        </Routes>
+      </main>
+
+      {/* You can also add a Footer that will appear on every page */}
+      {/* <Footer /> */}
+    </div>
   );
-};
+}
 
 export default App;

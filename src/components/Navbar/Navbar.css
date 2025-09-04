@@ -177,3 +177,110 @@
   .nav-icon-link { padding: 1rem; }
   .nav-icon-link svg { width: 32px; height: 32px; }
 }
+
+/* --- "Know More" Dropdown Trigger Button --- */
+.dropdown-toggle {
+  background: none;
+  border: none;
+  color: var(--text-dark);
+  font-family: inherit; /* Ensures it uses the same font as the rest of the site */
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0; /* Remove default button padding */
+  transition: color 0.2s ease-in-out;
+}
+
+.dropdown-toggle:hover {
+  color: var(--primary-color);
+}
+
+/* Adds the small arrow next to "Know More" */
+.dropdown-toggle::after {
+  content: '▼';
+  font-size: 0.6em;
+  margin-left: 8px;
+}
+
+
+/* --- Dropdown Menu (controlled by JS .active class) --- */
+/* This reuses your existing dropdown styles but ensures it's hidden by default */
+.nav-item.dropdown .dropdown-menu {
+  display: none; /* Hide by default */
+  position: absolute;
+  top: 120%;
+  left: 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  padding: 0.5rem;
+  min-width: 160px;
+  z-index: 101; /* Make sure it's on top of other content */
+}
+
+/* This rule shows the menu when the parent div has the 'active' class */
+.nav-item.dropdown.active .dropdown-menu {
+  display: block; 
+}
+
+/* Styling for the links inside the dropdown */
+.dropdown-menu a {
+  color: var(--text-dark);
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f3f4f6;
+  border-radius: 4px;
+}
+
+/* Add this to your client/src/components/Navbar/Navbar.css file */
+
+/* Hide the dropdown menu by default */
+.nav-item.dropdown .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 0.5rem;
+  z-index: 100;
+  min-width: 120px;
+}
+
+/* When the parent dropdown has the 'active' class, show the menu */
+.nav-item.dropdown.active .dropdown-menu {
+  display: block;
+}
+
+/* Style the user name button to look like text */
+.dropdown-toggle.user-name {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+}
+
+/* Style for the logout button inside the dropdown */
+.dropdown-logout-btn {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.dropdown-logout-btn:hover {
+  background-color: #f0f0f0;
+}

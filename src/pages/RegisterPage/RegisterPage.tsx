@@ -1,33 +1,38 @@
+// client/src/pages/RegisterPage/RegisterPage.tsx
+
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import './AuthForm.css'; // We'll use a shared CSS file for both forms
+import { registerUser } from '@/services/api'; // ✅ FIX: Import from your API service
+import './AuthForm.css';
 
 const RegisterPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  // ✅ FIX: Add isLoading state for the form submission
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
+      // ✅ FIX: Use the centralized API function instead of fetch
+      const response = await registerUser({ name, email, password });
       
-      login(data); // Save user to global state and localStorage
-      navigate('/'); // Redirect to home page
+      login(response.data); // Log the user in immediately after registration
+      navigate('/');
     } catch (err: any) {
-      setError(err.message);
+      // ✅ FIX: Handle Axios error structure
+      const message = err.response?.data?.message || 'Registration failed. Please try again.';
+      setError(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -48,7 +53,10 @@ const RegisterPage: React.FC = () => {
           <label htmlFor="password">Password</label>
           <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
-        <button type="submit" className="auth-button">Register</button>
+        {/* ✅ FIX: Disable button and change text during submission */}
+        <button type="submit" className="auth-button" disabled={isLoading}>
+          {isLoading ? 'Registering...' : 'Register'}
+        </button>
         <p className="auth-switch">
           Already have an account? <Link to="/login">Login</Link>
         </p>

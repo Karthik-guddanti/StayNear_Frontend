@@ -1,4 +1,3 @@
-// This type EXACTLY matches the data coming from your MongoDB backend
 export interface Hostel {
   _id: string;
   name: string;
@@ -6,19 +5,18 @@ export interface Hostel {
   phone: string;
   location: {
     type: 'Point';
-    coordinates: [number, number]; // [longitude, latitude]
+    coordinates: [number, number];
   };
   gender: 'male' | 'female' | 'colive';
   price: number;
   amenities: string[];
   rating: number;
   reviews: number;
-  photoUrl?: string | null; // 👈 Add this new property for the photo
+  photoUrl?: string | null;
   createdAt?: string;
   updatedAt?: string;
 }
 
-// This type defines the props needed specifically for the HostelCard component
 export interface HostelCardData {
   id: string;
   name: string;
