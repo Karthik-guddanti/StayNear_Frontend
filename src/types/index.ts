@@ -1,20 +1,21 @@
+// client/src/types/index.ts
+
 export interface Hostel {
   _id: string;
   name: string;
   address: string;
   phone: string;
+  website?: string; // ✅ NEW: Add optional website property
   location: {
     type: 'Point';
     coordinates: [number, number];
   };
   gender: 'male' | 'female' | 'colive';
-  price: number;
   amenities: string[];
   rating: number;
   reviews: number;
   photoUrl?: string | null;
-  createdAt?: string;
-  updatedAt?: string;
+  roomTypes?: string[];
 }
 
 export interface HostelCardData {
@@ -24,6 +25,6 @@ export interface HostelCardData {
   rating: number | string;
   reviews: number;
   distance: string;
-  price: number;
   amenities: string[];
+  // ❌ REMOVED: Price is no longer part of the card data
 }

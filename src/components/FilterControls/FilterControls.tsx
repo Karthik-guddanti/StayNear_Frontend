@@ -2,19 +2,19 @@
 
 import React from 'react';
 import './FilterControls.css';
-import SearchBar from '../SearchBar/SearchBar'; // ✅ NEW: Import SearchBar
+import SearchBar from '../SearchBar/SearchBar';
 
-// ✅ FIX: Remove 'price' from the FilterState interface
 export interface FilterState {
-  sortBy: 'rating' | 'price';
+  sortBy: 'rating'; // 'price' has been removed as a sorting option
   gender: 'all' | 'male' | 'female' | 'colive';
   amenities: string[];
+  roomTypes: string[];
 }
 
 interface FilterControlsProps {
   filters: FilterState;
   onFilterChange: (name: keyof FilterState, value: any) => void;
-  locationName: string; // ✅ NEW: Prop to pass the current location to the SearchBar
+  locationName: string;
 }
 
 const FilterControls: React.FC<FilterControlsProps> = ({ filters, onFilterChange, locationName }) => {
@@ -29,18 +29,27 @@ const FilterControls: React.FC<FilterControlsProps> = ({ filters, onFilterChange
     }
     onFilterChange('amenities', newAmenities);
   };
+  
+  const handleRoomTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    const currentRoomTypes = filters.roomTypes || [];
+    let newRoomTypes: string[];
+    if (checked) {
+      newRoomTypes = [...currentRoomTypes, name];
+    } else {
+      newRoomTypes = currentRoomTypes.filter(type => type !== name);
+    }
+    onFilterChange('roomTypes', newRoomTypes);
+  };
 
   return (
     <div className="filters-container-pro">
-      {/* ✅ NEW: Add the SearchBar component at the top of the filters */}
       <div className="filter-section">
         <label htmlFor="search" className="section-label">Location</label>
         <SearchBar initialQuery={locationName} />
       </div>
       
       <h3 className="filters-title">Filters</h3>
-
-      {/* ✅ REMOVED: The entire price filter section has been deleted. */}
 
       <div className="filter-section">
         <label className="section-label">Gender</label>
@@ -74,6 +83,24 @@ const FilterControls: React.FC<FilterControlsProps> = ({ filters, onFilterChange
                 onChange={handleAmenityChange} 
               />
               <label htmlFor={`amenity-${amenityValue}`}>{amenityValue === 'AC' ? 'Air Conditioning' : amenityValue}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="filter-section">
+        <label className="section-label">Room Type</label>
+        <div className="selection-group">
+          {['Private', '4-Bed Dorm', '6-Bed Dorm'].map(roomValue => (
+            <div className="custom-checkbox" key={roomValue}>
+              <input 
+                type="checkbox" 
+                id={`room-${roomValue}`} 
+                name={roomValue} 
+                checked={filters.roomTypes?.includes(roomValue)} 
+                onChange={handleRoomTypeChange} 
+              />
+              <label htmlFor={`room-${roomValue}`}>{roomValue}</label>
             </div>
           ))}
         </div>

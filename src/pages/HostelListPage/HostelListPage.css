@@ -1,54 +1,50 @@
-.explore-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr; 
-  gap: 1.5rem;
-  /* 👇 CORRECTED: Use min-height to ensure the layout fills the screen */
-  min-height: calc(100vh - 80px);
+/* client/src/pages/HostelListPage/HostelListPage.css */
+
+.explore-layout-no-map {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem 2rem 2rem;
 }
 
-.explore-layout.map-visible {
-  grid-template-columns: 280px 1fr 40%;
-}
-
-.explore-layout .map-panel {
-  display: none;
-}
-
-.explore-layout.map-visible .map-panel {
-  display: block;
-}
-
-.filter-sidebar,
-.map-panel {
+.filter-sidebar {
+  flex: 0 0 300px;
   position: sticky;
-  top: 100px;
+  top: 100px; /* Adjust based on your navbar height */
+  align-self: flex-start;
   height: calc(100vh - 120px);
+  overflow-y: auto;
+  padding-right: 1rem;
 }
 
-.results-panel {
-  overflow-y: auto;
-  padding-right: 1.5rem;
+.results-panel-full-width {
+  flex: 1;
+  min-width: 0; /* Prevents flexbox overflow issues */
 }
 
 .results-header {
   margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .results-title {
   font-size: 2rem;
   font-weight: 700;
-  margin: 0;
+  color: #111827;
 }
 
 .results-count {
   font-size: 1rem;
-  color: var(--text-light);
-  margin-top: 0.5rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
 }
 
 .hostel-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
 }
 
@@ -56,66 +52,40 @@
   text-decoration: none;
   color: inherit;
   display: block;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-radius: 12px; /* Ensure radius is applied for shadow */
+}
+
+.card-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.07);
 }
 
 .status-message {
-  font-size: 1.2rem;
-  font-weight: 500;
+  padding: 4rem 2rem;
   text-align: center;
-  padding: 4rem 1rem;
-  color: var(--text-light);
+  font-size: 1.1rem;
+  color: #4b5563;
+  border-radius: 8px;
+  background-color: #f9fafb;
 }
+
 .status-message.error {
-  color: #ef4444;
+  color: #991b1b;
+  background-color: #fef2f2;
 }
 
-.map-toggle-btn {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 500;
-  background-color: var(--text-dark);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 99px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease;
-}
+/* Responsive layout for smaller screens */
+@media (max-width: 900px) {
+  .explore-layout-no-map {
+    flex-direction: column;
+  }
 
-.map-toggle-btn:hover {
-  transform: translateX(-50%) scale(1.05);
-}
-
-@media (max-width: 1200px) {
-  .explore-layout, .explore-layout.map-visible {
-    grid-template-columns: 280px 1fr;
-  }
-  .explore-layout .map-panel {
-    display: none;
-  }
-  .map-toggle-btn {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .explore-layout, .explore-layout.map-visible {
-    display: block;
-    height: auto;
-    min-height: 0; /* Reset min-height for mobile */
-  }
   .filter-sidebar {
     position: static;
     height: auto;
-    margin-bottom: 2rem;
-  }
-  .results-panel {
     overflow-y: visible;
     padding-right: 0;
+    margin-bottom: 2rem;
   }
 }

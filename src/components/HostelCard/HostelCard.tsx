@@ -1,3 +1,5 @@
+// client/src/components/HostelCard/HostelCard.tsx
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import type { HostelCardData } from '@/types';
@@ -21,9 +23,9 @@ const HostelCard: React.FC<HostelCardProps> = ({ hostel }) => {
           </div>
         </div>
         <p className="card-address">{hostel.distance}</p>
-        <p className="card-price">
-          <strong>₹{hostel.price.toLocaleString()}</strong> / month
-        </p>
+        
+        {/* ❌ REMOVED: The entire price paragraph is deleted from here */}
+        
       </div>
     </motion.div>
   );

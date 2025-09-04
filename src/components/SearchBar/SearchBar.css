@@ -1,87 +1,74 @@
 .search-bar-wrapper {
-  width: 100%;
-  max-width: 500px; /* Adjust max-width as needed */
   position: relative;
+  width: 100%;
 }
 
 .search-form-container {
   display: flex;
   align-items: center;
   width: 100%;
-  background: #fff;
-  border-radius: 99px; /* High value creates the pill shape */
-  padding: 0.5rem 0.75rem;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--border-color);
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.search-form-container:focus-within {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
 }
 
 .search-input {
-  flex-grow: 1; /* Makes the input take up all available space */
+  flex-grow: 1;
   border: none;
   outline: none;
-  background: transparent;
+  padding: 0.75rem;
   font-size: 1rem;
-  padding: 0.5rem 1rem;
-  color: var(--text-dark);
-}
-
-.search-input::placeholder {
-  color: var(--text-light);
+  background-color: transparent;
+  min-width: 0;
 }
 
 .location-icon-btn {
-  background: transparent;
-  border: 1px solid var(--border-color);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  border: none;
+  background: none;
+  padding: 0.5rem;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  margin-right: 0.5rem;
-  transition: background-color 0.2s ease;
+  color: #6b7280;
 }
 
 .location-icon-btn:hover {
-  background-color: #f3f4f6; /* Light gray on hover */
+  color: #111827;
 }
-
-.location-icon-btn svg {
-  transition: fill 0.2s ease;
-}
-
-.location-icon-btn:hover svg {
-  fill: var(--primary-color);
-}
-
 
 .search-btn {
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 1rem;
   border: none;
-  background: var(--primary-color);
+  background-color: #4f46e5;
   color: white;
-  font-size: 1rem;
   font-weight: 600;
-  border-radius: 99px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s;
 }
 
 .search-btn:hover {
-  background-color: var(--primary-hover);
+  background-color: #4338ca;
 }
 
 .search-btn:disabled {
-  background-color: #9ca3af; /* Gray when disabled */
+  background-color: #a5b4fc;
   cursor: not-allowed;
 }
 
 .search-error {
   position: absolute;
-  bottom: -2rem;
-  left: 1.5rem;
+  top: 110%;
+  left: 0;
   color: #ef4444;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }

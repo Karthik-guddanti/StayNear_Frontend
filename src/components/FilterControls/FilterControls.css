@@ -1,35 +1,31 @@
+/* client/src/components/FilterControls/FilterControls.css */
+
 .filters-container-pro {
-  background-color: var(--surface-color);
+  background-color: #ffffff;
   padding: 1.5rem;
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
 }
 
 .filters-title {
   font-size: 1.25rem;
   font-weight: 600;
-  margin: 0 0 1.5rem 0;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .filter-section {
   margin-bottom: 2rem;
 }
 
-.filter-section:last-child {
-  margin-bottom: 0;
-}
-
 .section-label {
   display: block;
+  font-size: 0.875rem;
   font-weight: 600;
-  color: var(--text-dark);
+  color: #374151;
   margin-bottom: 1rem;
-}
-
-input[type="range"] {
-  width: 100%;
 }
 
 .selection-group {
@@ -38,94 +34,23 @@ input[type="range"] {
   gap: 0.75rem;
 }
 
-/* --- Custom Radio and Checkbox Styling --- */
-.custom-radio, .custom-checkbox {
-  display: block;
-  position: relative;
-  padding-left: 35px;
+.custom-radio,
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.custom-radio input[type="radio"],
+.custom-checkbox input[type="checkbox"] {
+  height: 1rem;
+  width: 1rem;
   cursor: pointer;
+}
+
+.custom-radio label,
+.custom-checkbox label {
   font-size: 1rem;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Hide the browser's default radio/checkbox */
-.custom-radio input, .custom-checkbox input {
-  position: absolute;
-  opacity: 0;
+  color: #4b5563;
   cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-/* Create a custom radio/checkbox appearance */
-.custom-radio label::before, .custom-checkbox label::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 22px;
-  width: 22px;
-  background-color: #eee;
-  border: 1px solid var(--border-color);
-  transition: all 0.2s ease;
-}
-
-/* Custom radio is a circle */
-.custom-radio label::before {
-  border-radius: 50%;
-}
-
-/* Custom checkbox is a square */
-.custom-checkbox label::before {
-  border-radius: 4px;
-}
-
-/* Style for when it's hovered */
-.custom-radio:hover input ~ label::before,
-.custom-checkbox:hover input ~ label::before {
-  background-color: #ccc;
-}
-
-/* Style for when it's checked */
-.custom-radio input:checked ~ label::before,
-.custom-checkbox input:checked ~ label::before {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.custom-radio label::after, .custom-checkbox label::after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-/* Show the indicator when checked */
-.custom-radio input:checked ~ label::after,
-.custom-checkbox input:checked ~ label::after {
-  display: block;
-}
-
-/* Style the radio indicator (the dot) */
-.custom-radio label::after {
-  top: 6px;
-  left: 6px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: white;
-}
-
-/* Style the checkbox indicator (the checkmark) */
-.custom-checkbox label::after {
-  left: 7px;
-  top: 3px;
-  width: 6px;
-  height: 12px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  transform: rotate(45deg);
 }
